@@ -1,0 +1,219 @@
+/* .ant-table-thead .ant-table-cell {
+    background-color: #17181B !important;
+    color: #9AA0A6 !important;
+} */
+
+
+.ant-table {
+    font-size: 13px !important;
+}
+
+.ant-table-title {
+    background-color: #010c24;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 8px 15px !important;
+}
+
+/* custom-styles.css */
+
+/* Ensure text color inside Ant Design input fields is white */
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-input-group,
+.ant-select-selection-item,
+.ant-form-item-label,
+.ant-select-single-item {
+    color: white !important;
+    /* Enforce white text color */
+}
+
+/* Set background color for input and select fields to make it visible */
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-select-selector,
+.ant-select-selection-item {
+    background-color: #333 !important;
+    /* Dark background for visibility */
+}
+
+/* Set the label text color to white */
+.ant-form-item-label {
+    color: white !important;
+}
+
+/* Optional: Set placeholder text color to a lighter color for better visibility */
+.ant-input::placeholder,
+.ant-select-selector::placeholder {
+    color: #aaa !important;
+}
+
+.ant-form-item-required {
+    color: white !important;
+}
+
+.ant-table-wrapper,
+.ant-table-tbody>tr>td {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.ant-select-selector,
+.ant-select-selection-item {
+    background-color: transparent !important;
+    color: var(--antd-select-selection-item-color) !important; 
+    border-radius: 12px !important;
+}
+
+.react-grid-item {
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    outline: none !important;
+}
+
+.table-striped-rows_conf_dark tr:nth-child(even) {
+    background-color: #282A2C !important;
+}
+.table-striped-rows_conf_light tr:nth-child(even) {
+    background-color: #EEF2FE    !important;
+}
+
+.table-striped-rows_netpos tr:nth-child(even) {
+    background-color: #282A2C !important;
+}
+
+.ant-table-wrapper .ant-table-cell {
+    padding: 8px 16px !important;
+}
+
+.ant-menu-title-content {
+    font-size: 13px;
+}
+
+.ant-menu-dark.ant-menu-horizontal >.ant-menu-submenu-selected {
+    background-color: transparent  !important;
+}
+
+.ant-menu-dark>.ant-menu .ant-menu-item-selected {
+    background-color: transparent !important;
+}
+
+.ant-table-wrapper .ant-table-thead >tr>th {
+    border-bottom: none !important;
+}
+
+.ant-menu-dark.ant-menu-submenu-popup>.ant-menu{
+    background-color: #191B1C !important;
+
+}
+
+:where(.css-dev-only-do-not-override-142vneq).ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector {
+    border: 1px solid #282A2C !important;
+}
+
+.ant-select .ant-select-arrow {
+    color: #98B1FB !important;
+}
+
+.ant-table-wrapper .ant-table-row-expand-icon {
+    border: 1px solid black !important;
+    background-color: black;
+}
+
+.ant-table-wrapper .ant-table-row-expand-icon:hover {
+    color: white !important;
+}
+
+.ant-table-wrapper .ant-table-tbody >tr >td >.ant-table-wrapper:only-child .ant-table {
+    margin-block: -8px !important;
+    margin-inline: -15px !important;
+}
+
+.ant-select-single.ant-select-sm .ant-select-selector {
+    font-size: 12px !important;
+}
+
+
+.ant-select-single.ant-select-sm .ant-select-selector {
+    font-size: 11px !important;
+}
+
+.ant-select-dropdown .ant-select-item {
+    min-height: 0;
+}
+
+.ant-input, .ant-input-affix-wrapper, .ant-select-selector, .ant-select-selection-item {
+    background-color: transparent !important;
+    border-color: grey !important;
+}
+
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s !important;
+    -webkit-text-fill-color: #ffffff;
+}
+
+.glow-effect {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 25px;
+    border-radius: 50%;
+    /* background: radial-gradient(
+        circle,
+        #5693fc 2%,
+        #4576cb 9%,
+        #355b9c 18%,
+        #274272 27%,
+        #1a2e4f 36%,
+        #111d32 46%,
+        #09101b 57%,
+        #04070c 68%,
+        #000102 81%,
+        #000000 99%
+    ); */
+    background: radial-gradient(
+        circle,
+        #5693fc 2%,
+        #4576cb 9%,
+        #355b9c 18%,
+        #274272 27%,
+        #1a2e4f 36%,
+        #111d32 46%,
+        #09101b 57%,
+        #04070c 68%,
+        #000102 81%,
+        #000000 99%
+    );
+    filter: blur(15px);
+    opacity: 0.8;
+    animation: lamp-glow 3s infinite ease-in-out;
+}
+
+
+.ant-modal .ant-modal-header {
+    text-align: center;
+    padding: 5px;
+    padding-top: 0px;
+}
+
+.ant-modal .ant-modal-footer {
+    padding: 5px;
+    padding-bottom: 0px;
+}
+
+.ant-modal-root .ant-modal-wrap {
+    z-index: 99999999 !important;
+}
