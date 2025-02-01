@@ -14,17 +14,18 @@
         "preview": "vite preview",
         "format": "npx prettier --write .",
         "clean": "rm -rf node_modules pnpm-lock.yaml yarn.lock",
-        "prepare": "husky install",
-        "storybook": "storybook dev -p 6006",
-        "build-storybook": "storybook build"
+        "prepare": "husky install"
     },
     "dependencies": {
         "@reduxjs/toolkit": "^1.9.5",
+        "antd": "^5.22.2",
         "axios": "^1.5.0",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.0.0",
+        "dayjs": "^1.11.13",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-hot-toast": "^2.5.1",
         "react-native-uuid": "^2.0.3",
         "react-redux": "^8.0.5",
         "redux-persist": "^6.0.0",
