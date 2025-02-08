@@ -1,11 +1,9 @@
-import { Button, Select } from 'antd';
 import {
     GithubOutlined,
     TwitterOutlined,
     YoutubeOutlined,
     RedditOutlined,
 } from '@ant-design/icons';
-import { BLOCKCHAIN_OPTIONS } from '~/constants/blockchain-metdata';
 
 const Header = () => {
     const onChange = (value: string) => {
@@ -45,44 +43,8 @@ const Header = () => {
 
             {/* Connect Wallet Button */}
             <div className="flex flex-row items-center gap-3">
-                <Select
-                    showSearch
-                    placeholder="Select Chain"
-                    size="large"
-                    optionFilterProp="label"
-                    onChange={onChange}
-                    onSearch={onSearch}
-                    options={BLOCKCHAIN_OPTIONS.map(
-                        ({ value, label, icon }) => ({
-                            value,
-                            label: (
-                                <div
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '8px',
-                                    }}
-                                >
-                                    <img
-                                        src={icon}
-                                        alt={label}
-                                        width="20"
-                                        height="20"
-                                        style={{ borderRadius: '50%' }}
-                                    />
-                                    {label}
-                                </div>
-                            ),
-                        })
-                    )}
-                />
-                <Button
-                    type="primary"
-                    size="large"
-                    className="bg-blue-500 hover:bg-blue-600"
-                >
-                    Connect Wallet
-                </Button>
+                {/* wallet connect button */}
+                <appkit-button />
             </div>
         </div>
     );

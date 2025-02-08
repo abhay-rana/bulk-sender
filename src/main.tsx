@@ -13,7 +13,7 @@ import './styles/antd-style.css';
 import './styles/globals.css';
 
 import App from '~/App';
-import store from '~/redux/store';
+import store from '~/redux/store'; 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <>
