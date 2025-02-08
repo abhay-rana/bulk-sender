@@ -152,6 +152,7 @@ const BulkSenderScreen = () => {
                     </Button>
                 </div>
             </div>
+
             <ValidateAddressModal
                 isOpen={validateAddressesModal}
                 onClose={() => toggleValidateAddressesModal(false)}
