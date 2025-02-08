@@ -59,10 +59,7 @@ const TestComponentTwo = () => {
                     PromisesArray.push(fetchAddress(data.address)); // save the promise into the array
                 }
             });
-
-            await Promise.all(data.map(fetch));
         }
-        console.log('promises', PromisesArray);
     }, [dataSource]);
 
     return (
