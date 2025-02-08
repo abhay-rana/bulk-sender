@@ -1,14 +1,19 @@
 import { Button, Form, Input } from 'antd';
 import { useRef, useState } from 'react';
 import TextAreaWithDragDrop from '~/components/common/textarea';
+import NewTextArea from '~/components/common/new-textarea';
+import ValidateAddressModal from '~/components/modals/validate-address-modal';
 
 const BulkSenderScreen = () => {
-    const [selectedStandard, setSelectedStandard] = useState<string>('');
     const [form] = Form.useForm();
+    const [validateAddressesModal, setValidateAddressesModal] =
+        useState<boolean>(false);
+    const [selectedStandard, setSelectedStandard] = useState<string>('');
 
-    const textAreaRef = useRef<{ setText: (text: string) => void } | null>(
-        null
-    );
+    const textAreaRef = useRef<{
+        setText: (text: string) => void;
+        text: string;
+    } | null>(null);
 
     const handleStandardSelect = (standard: string) => {
         setSelectedStandard(standard);
@@ -22,6 +27,10 @@ const BulkSenderScreen = () => {
         // Reset standard button
         setSelectedStandard('');
     };
+
+    function toggleValidateAddressesModal(state: boolean) {
+        setValidateAddressesModal(state);
+    }
 
     return (
         <div className="mx-auto max-w-4xl px-6 py-12">
@@ -119,7 +128,8 @@ const BulkSenderScreen = () => {
                             />
                         </Form.Item>
                     </Form>
-                    <TextAreaWithDragDrop ref={textAreaRef} />
+                    {/* <TextAreaWithDragDrop ref={textAreaRef} /> */}
+                    <NewTextArea ref={textAreaRef} />
                 </div>
 
                 {/* Action Buttons */}
@@ -136,11 +146,18 @@ const BulkSenderScreen = () => {
                         type="primary"
                         size="large"
                         className="min-w-[100px] bg-blue-500 hover:bg-blue-600"
+                        onClick={() => toggleValidateAddressesModal(true)}
                     >
                         Continue
                     </Button>
                 </div>
             </div>
+            <ValidateAddressModal
+                isOpen={validateAddressesModal}
+                onClose={() => toggleValidateAddressesModal(false)}
+                selectedTokenType={selectedStandard}
+                textAreaRef={textAreaRef}
+            />
         </div>
     );
 };

@@ -98,7 +98,7 @@ const TextAreaWithDragDrop = forwardRef((_, ref) => {
             <div className="flex flex-row">
                 <div
                     ref={lineNumbersRef}
-                    className="flex h-40 flex-col overflow-hidden border-r border-gray-300 bg-gray-50 px-1 py-2"
+                    className="flex h-48 flex-col overflow-hidden border-r border-gray-300 bg-gray-50 px-1 py-2"
                 >
                     {renderLineNumbers()}
                 </div>
@@ -108,7 +108,7 @@ const TextAreaWithDragDrop = forwardRef((_, ref) => {
                     onChange={handleTextChange}
                     onScroll={handleScroll}
                     placeholder="Enter manually or drag & drop a file"
-                    className="text-sm font-mono h-40 w-full resize-none bg-gray-100 p-2 focus:border-blue-400 focus:outline-none focus:ring"
+                    className="text-sm font-mono h-48 w-full resize-none bg-gray-100 p-2 focus:border-blue-400 focus:outline-none focus:ring"
                     style={{ border: 'none' }}
                 />
             </div>

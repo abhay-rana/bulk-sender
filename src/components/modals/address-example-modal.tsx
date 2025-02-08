@@ -1,6 +1,12 @@
 import { Modal } from 'antd';
 
-const AddressesExampleModal = ({ isVisible, onClose }) => {
+const AddressesExampleModal = ({
+    isVisible,
+    onClose,
+}: {
+    isVisible: boolean;
+    onClose: () => void;
+}) => {
     return (
         <>
             <Modal
