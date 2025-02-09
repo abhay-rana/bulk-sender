@@ -1,15 +1,8 @@
 import { Modal, Table, Spin } from 'antd';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { useEffect, useState, useMemo } from 'react';
-
-// Mock function to simulate checking Ethereum address validity
-const checkAddressOnBlockchain = async (address: string): Promise<boolean> => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(Math.random() > 0.5); // Simulate API response (50% chance of being valid)
-        }, 1000); // Simulate network delay
-    });
-};
+import { ethers } from 'ethers';
+import { ALCHEMY_API } from '~/constants/api-constants';
 
 const ValidateAddressModal = ({
     isOpen,
@@ -24,51 +17,36 @@ const ValidateAddressModal = ({
 }) => {
     const textData = textAreaRef?.current?.text || '';
 
-    const [dataSource, setDataSource] = useState([]);
+    const provider = new ethers.JsonRpcProvider(ALCHEMY_API);
 
     // ✅ Memoize `dataSource` so it doesn't change on every render
-    // const dataSource = useMemo(() => {
-    //     return textData
-    //         .split('\n')
-    //         .filter((line) => line.trim() !== '') // Remove empty lines
-    //         .map((line, index) => {
-    //             const [address, amount] = line.split(',');
-    //             return {
-    //                 key: index + 1,
-    //                 lineNumber: index + 1,
-    //                 address: address?.trim(),
-    //                 amount: amount?.trim() || '0',
-    //             };
-    //         });
-    // }, [textData]); // Only changes when textData changes
+    const dataSource = useMemo(() => {
+        return textData
+            .split('\n')
+            .filter((line) => line.trim() !== '') // Remove empty lines
+            .map((line, index) => {
+                const [address, amount] = line.split(',');
+                return {
+                    key: index + 1,
+                    lineNumber: index + 1,
+                    address: address?.trim(),
+                    amount: amount?.trim() || '0',
+                };
+            });
+    }, [textData]); // Only changes when textData changes
 
     // ✅ Store verified status in a stable state
     const [verifiedStatus, setVerifiedStatus] = useState<
         Record<string, boolean | null>
     >({});
 
-    useEffect(() => {
-        console.log('modal is mounted');
-        setTimeout(() => {
-            const textData = textAreaRef?.current?.text || '';
-            const dataSource = textData
-                .split('\n')
-                .filter((line) => line.trim() !== '') // Remove empty lines
-                .map((line, index) => {
-                    const [address, amount] = line.split(',');
-                    return {
-                        key: index + 1,
-                        lineNumber: index + 1,
-                        address: address?.trim(),
-                        amount: amount?.trim() || '0',
-                    };
-                });
-            setDataSource(dataSource);
-        }, 2000);
-        return () => {
-            console.log('unmounts');
-        };
-    }, [isOpen]);
+    // Mock function to simulate checking Ethereum address validity
+    const checkAddressOnBlockchain = async (
+        address: string
+    ): Promise<boolean> => {
+        const code = await provider.getCode(address);
+        return code === '0x' ? 'Wallet' : 'Contract';
+    };
 
     // ✅ Function to verify Ethereum address (Mock API Call)
     const verifyAddress = async (address: string) => {
@@ -150,7 +128,6 @@ const ValidateAddressModal = ({
                 key: 'verified',
                 width: 100,
                 render: (address: string, record) => {
-                    console.log('record', record);
                     if (!(address in verifiedStatus))
                         return <Spin size="small" />;
                     return verifiedStatus[address] ? (
