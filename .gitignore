@@ -26,3 +26,7 @@ dist-ssr
 .vercel
 pnpm-lock.yaml
 yarn.lock
+
+.env
+.env.production
+.env.development
