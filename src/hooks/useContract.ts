@@ -1,10 +1,11 @@
 import { useAppKitAccount, useAppKitNetwork, useAppKitProvider } from "@reown/appkit/react";
+import { FormInstance } from "antd";
 import { ethers, isAddress } from "ethers";
-import React, { useEffect, useState } from "react";
+import React, { MutableRefObject, useEffect, useState } from "react";
 import { alchemyChains, ethereumProviderStandard } from "~/constant/constant";
 import { ContractMetadata, getContractMetadata } from "~/data/contractMetadata";
 
-function useContract() {
+function useContract({form}: { form : FormInstance }) {
     const {chainId } = useAppKitNetwork();
     const [contractInfo, setContractInfo] = useState<ContractMetadata | null>(null);
     const [balance, setBalance] = useState({
@@ -31,12 +32,19 @@ function useContract() {
     const handleContractInput = (e : React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         if (isAddress(value)) {
+            form.setFieldsValue({
+                'contractAddress' : value
+            })
             getContractInfo(value);
+            // setContractAddress(value);
         }
     }
 
     const resetContractInfo = () => {
         setContractInfo(null);
+        form.setFieldsValue({
+            'contractAddress' : ''
+        })
     }
 
     const getUserNativeBalance = async () => {

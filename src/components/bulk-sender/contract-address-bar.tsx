@@ -11,7 +11,7 @@ interface ContractAddressBarProps {
     setStandard: React.Dispatch<React.SetStateAction<string>>
 }
 function ContractAddressBar({ form,  standard, setStandard}: ContractAddressBarProps) {
-    const { handleContractInput, resetContractInfo, getUserNativeBalance, contractInfo, balance, chainId } = useContract();
+    const { handleContractInput, resetContractInfo, getUserNativeBalance, contractInfo, balance, chainId } = useContract({form});
 
 
     useEffect(() => {
@@ -25,7 +25,7 @@ function ContractAddressBar({ form,  standard, setStandard}: ContractAddressBarP
             )
 
             if (!askForStandardChange) resetContractInfo();
-             else setStandard(contractStandard || standard);
+            else setStandard(contractStandard || standard);
             
         } else if (!isContract && contractStandard === "NOT_A_CONTRACT") {
             alert('Please make sure you have selected the correct chain or contract address');
@@ -63,6 +63,7 @@ function ContractAddressBar({ form,  standard, setStandard}: ContractAddressBarP
                                 placeholder="Enter your contract address"
                                 size="large"
                                 className="rounded-lg"
+                                value={form.getFieldValue("contractAddress")}
                                 onChange={handleContractInput}
                             />
                         </Form.Item>
