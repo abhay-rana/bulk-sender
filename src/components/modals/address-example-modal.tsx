@@ -19,6 +19,24 @@ const AddressesExampleModal = ({
                 <div className="font-mono flex flex-col gap-4">
                     <div>
                         <div className="text-gray-500">
+                            for Native Tokens(address, amount)
+                        </div>
+                        <div>0x63Ed7e96CaA84CE852187447eE1Ed3bfEA38B316,60</div>
+                        <div>
+                            0x7B32C3158b7f193D3Ea33f548817549949D492ca2,61
+                        </div>
+                    </div>
+                    <div>
+                        <div className="text-gray-500">
+                            for ERC20(address, amount)
+                        </div>
+                        <div>0x63Ed7e96CaA84CE852187447eE1Ed3bfEA38B316,60</div>
+                        <div>
+                            0x7B32C3158b7f193D3Ea33f548817549949D492ca2,61
+                        </div>
+                    </div>
+                    <div>
+                        <div className="text-gray-500">
                             for ERC721(address, id)
                         </div>
                         <div>0x63Ed7e96CaA84CE852187447eE1Ed3bfEA38B316,60</div>

@@ -1,15 +1,15 @@
-import { Modal, Table, Spin } from 'antd';
+import { Modal, Table, Spin, Tooltip, Button } from 'antd';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { useEffect, useState, useMemo } from 'react';
+import { ethers } from 'ethers';
+import { ALCHEMY_API } from '~/constants/api-constants';
 
-// Mock function to simulate checking Ethereum address validity
-const checkAddressOnBlockchain = async (address: string): Promise<boolean> => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(Math.random() > 0.5); // Simulate API response (50% chance of being valid)
-        }, 1000); // Simulate network delay
-    });
-};
+interface IDataSource {
+    key: number;
+    lineNumber: number;
+    address: string;
+    amount: string;
+}
 
 const ValidateAddressModal = ({
     isOpen,
@@ -22,60 +22,62 @@ const ValidateAddressModal = ({
     selectedTokenType: string;
     textAreaRef: { current?: { text: string } };
 }) => {
+    const [delteWrongAddress, setDeleteWrongAddress] = useState<boolean>(false);
+    const [dataSource, setDataSource] = useState<IDataSource[]>('');
     const textData = textAreaRef?.current?.text || '';
 
-    const [dataSource, setDataSource] = useState([]);
+    const provider = new ethers.JsonRpcProvider(ALCHEMY_API);
 
     // ✅ Memoize `dataSource` so it doesn't change on every render
-    // const dataSource = useMemo(() => {
-    //     return textData
-    //         .split('\n')
-    //         .filter((line) => line.trim() !== '') // Remove empty lines
-    //         .map((line, index) => {
-    //             const [address, amount] = line.split(',');
-    //             return {
-    //                 key: index + 1,
-    //                 lineNumber: index + 1,
-    //                 address: address?.trim(),
-    //                 amount: amount?.trim() || '0',
-    //             };
-    //         });
-    // }, [textData]); // Only changes when textData changes
+    useMemo(() => {
+        const dataSource = textData
+            .split('\n')
+            .filter((line) => line.trim() !== '') // Remove empty lines
+            .map((line, index) => {
+                const [address, amount] = line.split(',');
+                return {
+                    key: index + 1,
+                    lineNumber: index + 1,
+                    address: address?.trim(),
+                    amount: amount?.trim() || '0',
+                };
+            });
+        setDataSource(dataSource);
+    }, [textData]); // Only changes when textData changes
 
     // ✅ Store verified status in a stable state
     const [verifiedStatus, setVerifiedStatus] = useState<
-        Record<string, boolean | null>
+        Record<string, { status: boolean; message: string } | null>
     >({});
 
-    useEffect(() => {
-        console.log('modal is mounted');
-        setTimeout(() => {
-            const textData = textAreaRef?.current?.text || '';
-            const dataSource = textData
-                .split('\n')
-                .filter((line) => line.trim() !== '') // Remove empty lines
-                .map((line, index) => {
-                    const [address, amount] = line.split(',');
-                    return {
-                        key: index + 1,
-                        lineNumber: index + 1,
-                        address: address?.trim(),
-                        amount: amount?.trim() || '0',
-                    };
-                });
-            setDataSource(dataSource);
-        }, 2000);
-        return () => {
-            console.log('unmounts');
-        };
-    }, [isOpen]);
+    // Mock function to simulate checking Ethereum address validity
+    const checkAddressOnBlockchain = async (
+        address: string
+    ): Promise<{ status: boolean; message: string }> => {
+        const code = await provider.getCode(address);
+        // if there is the single address is the contract address -> so show the delete wrong addresses
+        if (code !== '0x') setDeleteWrongAddress(true);
+        return code === '0x'
+            ? {
+                  status: true,
+                  message: 'This is wallet address',
+              }
+            : {
+                  status: false,
+                  message: 'This is contract address',
+              };
+    };
 
     // ✅ Function to verify Ethereum address (Mock API Call)
     const verifyAddress = async (address: string) => {
         try {
             return await checkAddressOnBlockchain(address); // Replace with actual API call
         } catch {
-            return false;
+            setDeleteWrongAddress(true);
+            return {
+                status: false,
+                message: 'Not the correct address',
+            };
         }
     };
 
@@ -98,6 +100,8 @@ const ValidateAddressModal = ({
 
             // Execute all verification requests in parallel
             const results = await Promise.all(promises);
+
+            console.log({ results });
 
             // Convert results into an object mapping address -> validity
             const statusUpdates = addressesToCheck.reduce(
@@ -150,19 +154,31 @@ const ValidateAddressModal = ({
                 key: 'verified',
                 width: 100,
                 render: (address: string, record) => {
-                    console.log('record', record);
                     if (!(address in verifiedStatus))
                         return <Spin size="small" />;
-                    return verifiedStatus[address] ? (
-                        <CheckCircleOutlined style={{ color: 'green' }} />
+                    return verifiedStatus[address]?.status ? (
+                        <Tooltip title={verifiedStatus[address].message}>
+                            <CheckCircleOutlined style={{ color: 'green' }} />
+                        </Tooltip>
                     ) : (
-                        <CloseCircleOutlined style={{ color: 'red' }} />
+                        <Tooltip title={verifiedStatus[address].message}>
+                            <CloseCircleOutlined style={{ color: 'red' }} />
+                        </Tooltip>
                     );
                 },
             },
         ],
         [verifiedStatus]
     );
+
+    function handleWrongAddress() {
+        const data = dataSource
+            .filter((data) => verifiedStatus[data.address].status)
+            .map((data, index) => ({ ...data, lineNumber: index + 1 }));
+        console.log({ data });
+        setDataSource(data);
+        setDeleteWrongAddress(false);
+    }
 
     return (
         <Modal
@@ -187,6 +203,11 @@ const ValidateAddressModal = ({
                     scroll={{ y: '60vh' }}
                 />
             </div>
+            {delteWrongAddress && (
+                <Button onClick={handleWrongAddress}>
+                    Delete Wrong Address
+                </Button>
+            )}
         </Modal>
     );
 };
