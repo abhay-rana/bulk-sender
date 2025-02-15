@@ -1,6 +1,6 @@
 import { Button, Form, Input } from 'antd';
 import { useRef, useState } from 'react';
-import TextAreaWithDragDrop from '~/components/common/textarea';
+import ContractAddressBar from '~/components/bulk-sender/contract-address-bar';
 import NewTextArea from '~/components/common/new-textarea';
 import ValidateAddressModal from '~/components/modals/validate-address-modal';
 
@@ -20,11 +20,8 @@ const BulkSenderScreen = () => {
     };
 
     const handleReset = () => {
-        // Reset form fields
         form.resetFields();
-        // Reset textarea
         textAreaRef.current?.setText('');
-        // Reset standard button
         setSelectedStandard('');
     };
 
@@ -96,7 +93,7 @@ const BulkSenderScreen = () => {
                             }
                             size="large"
                             className="min-w-[120px] hover:border-blue-500 hover:text-blue-500"
-                            onClick={() => handleStandardSelect('Native')}
+                            onClick={() => handleStandardSelect('NATIVE')}
                         >
                             Native
                         </Button>
@@ -105,29 +102,7 @@ const BulkSenderScreen = () => {
 
                 {/* Form Section */}
                 <div className="flex flex-col gap-6">
-                    <Form layout="vertical" className="w-full" form={form}>
-                        <Form.Item
-                            label={
-                                <span className="text-16 font-medium">
-                                    Token/ NFT/ Contract Address
-                                </span>
-                            }
-                            name="contractAddress"
-                            className="[&_.ant-form-item-label>label]:text-gray-700"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input contract address!',
-                                },
-                            ]}
-                        >
-                            <Input
-                                placeholder="Enter your contract address"
-                                size="large"
-                                className="rounded-lg"
-                            />
-                        </Form.Item>
-                    </Form>
+                    <ContractAddressBar form={form} standard={selectedStandard} setStandard={handleStandardSelect} />
                     {/* <TextAreaWithDragDrop ref={textAreaRef} /> */}
                     <NewTextArea ref={textAreaRef} />
                 </div>
