@@ -102,7 +102,11 @@ const BulkSenderScreen = () => {
 
                 {/* Form Section */}
                 <div className="flex flex-col gap-6">
-                    <ContractAddressBar form={form} standard={selectedStandard} setStandard={handleStandardSelect} />
+                    <ContractAddressBar
+                        form={form}
+                        standard={selectedStandard}
+                        setStandard={handleStandardSelect}
+                    />
                     {/* <TextAreaWithDragDrop ref={textAreaRef} /> */}
                     <NewTextArea ref={textAreaRef} />
                 </div>
