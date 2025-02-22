@@ -30,7 +30,7 @@ const routeConfig = [
 
 const Routes: React.FC = () => {
     useEffect(() => {
-        navigate('/bulk-sender');
+        // navigate('/bulk-sender');
     }, []);
 
     return (

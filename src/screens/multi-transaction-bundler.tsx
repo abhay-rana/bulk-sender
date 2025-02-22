@@ -2,7 +2,8 @@ import { Button, Form, Input, Select } from 'antd';
 import useTransactionBundler from '~/hooks/useTransactionBundler';
 
 function multitransactionBundler() {    
-    const { handleContractSection, contractAbi, handleSelectedFunction, selectedFunctions } = useTransactionBundler();
+      const [form] = Form.useForm();
+    const { handleSubmit, contractAbi, handleSelectedFunction, selectedFunctions, handleContractAddressInput } = useTransactionBundler({form});
     return ( 
         <div className="w-[100%] h-[100%]">
             <h2 className='text-center'>Multi Transaction Bundler</h2>
@@ -10,7 +11,8 @@ function multitransactionBundler() {
 
             <div className='w-[100%] flex justify-center items-center'>
                 <div className='w-[400px] mt-[100px]'>
-                    <Form.Item
+                    <Form form={form} layout='vertical'>
+                        <Form.Item
                         label={
                             <span className="text-16 font-medium">
                                 Token/ NFT/ Contract Address
@@ -28,22 +30,24 @@ function multitransactionBundler() {
                         <Input
                             placeholder="Enter your contract address"
                             size="large"
+                            value={form.getFieldValue('contractAddress')}
+                            onChange={handleContractAddressInput}
                             className="rounded-lg"
                         />
-                    </Form.Item>
+                        </Form.Item>
 
-                   <Form.Item
+                        {contractAbi?.options?.length > 0 && <Form.Item
                         label={
                             <span className="text-16 font-medium">
                                 ABI
                             </span>
                         }
-                        name="contractAddress"
+                        name="option"
                         className="[&_.ant-form-item-label>label]:text-gray-700"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please select a contract address!',
+                                message: 'Please select contract function!',
                             },
                         ]}
                         >                   
@@ -54,11 +58,11 @@ function multitransactionBundler() {
                             options={contractAbi?.options}
                             onChange={handleSelectedFunction}
                         />
-                    </Form.Item>
+                        </Form.Item>}
 
 
-                    {
-                        selectedFunctions?.inputs?.map((item, index) => {
+                        {
+                            selectedFunctions?.inputs?.map((item: {name : string, type : string}, index : number) => {
                             return (
                                 <Form.Item
                                     key={index}
@@ -67,7 +71,7 @@ function multitransactionBundler() {
                                             {item?.name}
                                         </span>
                                     }
-                                    name="contractAddress"
+                                    name={item.name || "unkown" + index}
                                     className="[&_.ant-form-item-label>label]:text-gray-700"
                                     rules={[
                                         {
@@ -77,25 +81,50 @@ function multitransactionBundler() {
                                     ]}
                                     >
                                     <Input
-                                        placeholder={ item.name}
+                                        placeholder={item.type}
                                         size="large"
                                         className="rounded-lg"
                                     />
                                 </Form.Item>
                             )
-                        })
-                    }
-                    
-                    <Button
+                            })
+                        }
+
+                           {(selectedFunctions?.stateMutability === 'payable') &&  <Form.Item
+                                label={
+                                    <span className="text-16 font-medium">
+                                        {"value"}
+                                    </span>
+                                }
+                                name={"value"}
+                                className="[&_.ant-form-item-label>label]:text-gray-700"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please input contract address!',
+                                    },
+                                ]}
+                                >
+                                <Input
+                                    placeholder={"uint256"}
+                                    size="large"
+                                    className="rounded-lg"
+                                />
+                            </Form.Item>
+                        }
+
+
+                        <Button
                         type="primary"
                         size="large"
                         className="w-[100%] rounded-lg"
                         onClick={() => {
-                            handleContractSection("0xdAC17F958D2ee523a2206206994597C13D831ec7")
+                            handleSubmit()
                         }}
                     >
                         Submit
                     </Button>
+                </Form>
                 </div>
             </div>
         </div>

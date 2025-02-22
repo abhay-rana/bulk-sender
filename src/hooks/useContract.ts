@@ -1,8 +1,8 @@
 import { useAppKitAccount, useAppKitNetwork, useAppKitProvider } from "@reown/appkit/react";
 import { FormInstance } from "antd";
 import { ethers, isAddress } from "ethers";
-import React, { MutableRefObject, useEffect, useState } from "react";
-import { alchemyChains, ethereumProviderStandard } from "~/constant/constant";
+import React, { useEffect, useState } from "react";
+import { alchemyChains, evmProviderStandard } from "~/constant/constant";
 import { ContractMetadata, getContractMetadata } from "~/data/contractMetadata";
 
 function useContract({form, standard, setStandard}: { form : FormInstance, standard : string, setStandard : React.Dispatch<React.SetStateAction<string>> }) {
@@ -13,7 +13,7 @@ function useContract({form, standard, setStandard}: { form : FormInstance, stand
         balance: 0,
         chainId : chainId,
     });
-    const { walletProvider } = useAppKitProvider(ethereumProviderStandard);
+    const { walletProvider } = useAppKitProvider(evmProviderStandard);
     const { address } = useAppKitAccount();
     const [warning, setWarning] = useState({
         open: false,

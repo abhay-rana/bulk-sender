@@ -1,6 +1,6 @@
 import { createAppKit } from '@reown/appkit';
 import { EthersAdapter } from '@reown/appkit-adapter-ethers';
-import { mainnet, arbitrum, polygon } from '@reown/appkit/networks';
+import { mainnet, polygon } from '@reown/appkit/networks';
 
 const projectId = 'd941a77bdf4110394d127dd3e0a92be0';
 
