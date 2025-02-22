@@ -5,7 +5,7 @@ import React, { MutableRefObject, useEffect, useState } from "react";
 import { alchemyChains, ethereumProviderStandard } from "~/constant/constant";
 import { ContractMetadata, getContractMetadata } from "~/data/contractMetadata";
 
-function useContract({form}: { form : FormInstance }) {
+function useContract({form, standard, setStandard}: { form : FormInstance, standard : string, setStandard : React.Dispatch<React.SetStateAction<string>> }) {
     const {chainId } = useAppKitNetwork();
     const [contractInfo, setContractInfo] = useState<ContractMetadata | null>(null);
     const [balance, setBalance] = useState({
@@ -15,6 +15,12 @@ function useContract({form}: { form : FormInstance }) {
     });
     const { walletProvider } = useAppKitProvider(ethereumProviderStandard);
     const { address } = useAppKitAccount();
+    const [warning, setWarning] = useState({
+        open: false,
+        text: '',
+        handleOnChangeClick: () => { },
+        handleOnChangeIgnore:() => { },
+    });
     
      const getContractInfo = async (contractAddress : string) => {
         try {
@@ -70,12 +76,68 @@ function useContract({form}: { form : FormInstance }) {
             })
         }
     }
+
+     useEffect(() => {
+        // if stanard id not supported
+        const contractStandard =
+            contractInfo?.tokenType === 'NO_SUPPORTED_NFT_STANDARD'
+                ? 'ERC20'
+                : contractInfo?.tokenType;
+        const isContract =
+            contractInfo?.tokenType === 'NOT_A_CONTRACT' ? false : true;
+
+        if (
+            contractStandard !== standard &&
+            contractInfo !== null &&
+            standard !== '' &&
+            isContract &&
+            standard !== 'NATIVE'
+        ) {
+            const askForStandardChange = `You have selected ${standard} standard but the token type is ${contractStandard}. Do you want to change it to ${contractStandard} standard?`
+            setWarning({
+                open: true,
+                text: askForStandardChange,
+                handleOnChangeClick: () => {
+                    setStandard(contractStandard || standard);
+                    setWarning((pre) => {
+                        pre.open = false;
+                        return pre
+                    })
+                },
+                handleOnChangeIgnore: () => {
+                    resetContractInfo();
+                    setWarning((pre) => {
+                        pre.open = false;
+                        return pre
+                    })
+                }
+            })
+            
+            // const askForStandardChange = window.confirm(
+            //     `You have selected ${standard} standard but the token type is ${contractStandard}. Do you want to change it to ${contractStandard} standard?`
+            // );
+            // setModalState(true)
+            // if (!askForStandardChange) resetContractInfo();
+            // else setStandard(contractStandard || standard);
+        } else if (!isContract && contractStandard === 'NOT_A_CONTRACT') {
+            alert(
+                'Please make sure you have selected the correct chain or contract address'
+            );
+            resetContractInfo();
+        }
+
+        // only when the NATIVE TOKEN SELECTED
+        if (standard === 'NATIVE') {
+            getUserNativeBalance();
+        }
+    }, [contractInfo, standard, chainId]);
    
     
     return {
         balance,
         chainId,
         contractInfo,
+        warning,
         setBalance,
         handleContractInput,
         resetContractInfo,

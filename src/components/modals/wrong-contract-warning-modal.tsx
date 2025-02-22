@@ -1,13 +1,15 @@
 import { Modal, Button } from 'antd';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 interface IModalDetails {
     open: boolean;
     text: string;
+    handleOkBtn: () => void;
+    handleCancelBtn: () => void;
 }
 
-const WarningContractStandardModal = ({ modalDetails }: IModalDetails) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+const WarningContractStandardModal = ({ open, text, handleCancelBtn, handleOkBtn }: IModalDetails) => {
+    const [isModalOpen, setIsModalOpen] = useState(open);
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -15,22 +17,24 @@ const WarningContractStandardModal = ({ modalDetails }: IModalDetails) => {
 
     const handleOk = () => {
         console.log('Submit clicked');
+        handleOkBtn();
         setIsModalOpen(false);
     };
 
     const handleCancel = () => {
         console.log('Cancel clicked');
+        handleCancelBtn();
         setIsModalOpen(false);
     };
 
     return (
         <>
-            <Button type="primary" onClick={showModal}>
+            {/* <Button type="primary" onClick={showModal}>
                 Open Warning Modal
-            </Button>
-            <Modal
+            </Button> */}
+           {open && <Modal
                 title="Warning"
-                open={modalDetails.open}
+                open={open}
                 onOk={handleOk}
                 onCancel={handleCancel}
                 okText="Submit"
@@ -39,8 +43,8 @@ const WarningContractStandardModal = ({ modalDetails }: IModalDetails) => {
                 maskClosable={false}
                 keyboard={false}
             >
-                <p>{modalDetails.text}</p>
-            </Modal>
+                <p>{text}</p>
+            </Modal>}
         </>
     );
 };

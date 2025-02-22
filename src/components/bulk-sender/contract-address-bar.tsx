@@ -3,6 +3,7 @@ import { CloseCircleOutlined } from '@ant-design/icons';
 import useContract from '~/hooks/useContract';
 import React, { useEffect } from 'react';
 import { defaultAvtar, evmChainsLogos } from '~/constant/constant';
+import WarningContractStandardModal from '../modals/wrong-contract-warning-modal';
 
 interface ContractAddressBarProps {
     form: FormInstance;
@@ -17,46 +18,13 @@ function ContractAddressBar({
     const {
         handleContractInput,
         resetContractInfo,
-        getUserNativeBalance,
+        warning,
         contractInfo,
         balance,
         chainId,
-    } = useContract({ form });
+    } = useContract({ form, standard, setStandard });
 
-    useEffect(() => {
-        // if stanard id not supported
-        const contractStandard =
-            contractInfo?.tokenType === 'NO_SUPPORTED_NFT_STANDARD'
-                ? 'ERC20'
-                : contractInfo?.tokenType;
-        const isContract =
-            contractInfo?.tokenType === 'NOT_A_CONTRACT' ? false : true;
-
-        if (
-            contractStandard !== standard &&
-            contractInfo !== null &&
-            standard !== '' &&
-            isContract &&
-            standard !== 'NATIVE'
-        ) {
-            const askForStandardChange = window.confirm(
-                `You have selected ${standard} standard but the token type is ${contractStandard}. Do you want to change it to ${contractStandard} standard?`
-            );
-            // setModalState(true)
-            if (!askForStandardChange) resetContractInfo();
-            else setStandard(contractStandard || standard);
-        } else if (!isContract && contractStandard === 'NOT_A_CONTRACT') {
-            alert(
-                'Please make sure you have selected the correct chain or contract address'
-            );
-            resetContractInfo();
-        }
-
-        // only when the NATIVE TOKEN SELECTED
-        if (standard === 'NATIVE') {
-            getUserNativeBalance();
-        }
-    }, [contractInfo, standard, chainId]);
+   
 
     return (
         <div className="flex flex-col gap-6">
@@ -133,6 +101,8 @@ function ContractAddressBar({
                     />
                 </div>
             )}
+
+            <WarningContractStandardModal open={warning.open} text={warning.text} handleOkBtn={warning.handleOnChangeClick} handleCancelBtn={warning.handleOnChangeIgnore} />
         </div>
     );
 }
