@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Router, Switch } from 'wouter';
 
 import BulkSenderScreen from '~/screens/bulk-sender-screen';
+import multitransactionBundler from '~/screens/multi-transaction-bundler';
 import TestComponent from '~/screens/test/test-component';
 import TestComponentTwo from '~/screens/test/test-component-two';
 
@@ -20,6 +21,10 @@ const routeConfig = [
         path: '/test2',
         component: TestComponentTwo,
     },
+    {
+        path: "/multi-transaction-bundler",
+        component: multitransactionBundler
+    }
 ];
 
 const Routes: React.FC = () => {
