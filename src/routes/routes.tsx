@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Router, Switch } from 'wouter';
+import { navigate } from 'wouter/use-location';
 
 import BulkSenderScreen from '~/screens/bulk-sender-screen';
 import multitransactionBundler from '~/screens/multi-transaction-bundler';
@@ -28,6 +29,10 @@ const routeConfig = [
 ];
 
 const Routes: React.FC = () => {
+    useEffect(() => {
+        navigate('/bulk-sender');
+    }, []);
+
     return (
         <>
             <Router>
