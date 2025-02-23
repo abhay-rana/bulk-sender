@@ -21,10 +21,10 @@ const useTransactionBundler = ({ form }: {form : FormInstance}) => {
 
                 const options = data?.reduce((acc, item, index) => {
                   if (item?.type === 'function' && (item?.stateMutability === 'nonpayable' || item?.stateMutability === 'payable')) {
-    acc.push({
-      label: item.name,
-      value: index,
-    });
+                    acc.push({
+                      label: item.name,
+                      value: index,
+                    });
                   }
                   return acc;
                 }, []);
@@ -56,7 +56,8 @@ const useTransactionBundler = ({ form }: {form : FormInstance}) => {
                     return form.getFieldValue(item.name || "unkown" + index);
                 })
                 const data = await createFunctionSignature(provider, contractAddress, [selectedFunctions], selectedFunctions.name, args, 0)
-                console.log({data})
+                console.log({ data })
+                return data;
             } else {
                 throw new Error('Invalid contract address Or wallet not connect properly');
             }

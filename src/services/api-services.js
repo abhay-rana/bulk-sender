@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { ProjectUrl } from '~/env';
-import { LogoutUser } from '~/redux/actions/auth-actions';
+// import { LogoutUser } from '~/redux/actions/auth-actions';
 import store from '~/redux/store';
-import Alertify from '~/services/alertify';
+import Alertify from '~/services/alertify-services';
 
 // Create an axios instance with the base URL
 const api = axios.create({
@@ -26,7 +26,7 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error?.response?.status === 401) {
-            store.dispatch(LogoutUser());
+            // store.dispatch(LogoutUser());
             Alertify.error('Your session is expired');
             // window.location.href = '/signin';
         }
