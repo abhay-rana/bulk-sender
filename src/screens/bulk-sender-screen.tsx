@@ -2,12 +2,22 @@ import { Button, Form, Input } from 'antd';
 import { useRef, useState } from 'react';
 import ContractAddressBar from '~/components/bulk-sender/contract-address-bar';
 import NewTextArea from '~/components/common/new-textarea';
+import TransactionModal from '~/components/modals/transaction-modal';
 import ValidateAddressModal from '~/components/modals/validate-address-modal';
+
+// Define segment ranges for different states
+const segmentMap = {
+    pending: [0, 50], // Adjust based on your Lottie file's frames
+    failure: [51, 100],
+    success: [101, 150],
+};
 
 const BulkSenderScreen = () => {
     const [form] = Form.useForm();
     const [validateAddressesModal, setValidateAddressesModal] =
         useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState(true);
+
     const [selectedStandard, setSelectedStandard] = useState<string>('');
 
     const textAreaRef = useRef<{
@@ -137,6 +147,14 @@ const BulkSenderScreen = () => {
                 onClose={() => toggleValidateAddressesModal(false)}
                 selectedTokenType={selectedStandard}
                 textAreaRef={textAreaRef}
+            />
+            <TransactionModal
+                status="completed"
+                paymentAmount="0.1 ETH"
+                totalAmount="100 EUR"
+                reference="WalletConnectTest"
+                transactionHash="rh6X8bZ...haAdy"
+                onBackClick={() => setIsOpen(false)}
             />
         </div>
     );
