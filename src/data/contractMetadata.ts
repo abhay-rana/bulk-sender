@@ -37,7 +37,7 @@ export const getContractMetadata = async (chain: string, contractAddress: string
         const res = await getApi(url);
         console.log({res})
         // const json = await res.json()
-        return res.data;
+        return res.data;    
     } catch (err) {
         console.log({ err })
         throw new Error(JSON.stringify(err));

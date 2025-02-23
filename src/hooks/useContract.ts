@@ -2,7 +2,7 @@ import { useAppKitAccount, useAppKitNetwork, useAppKitProvider } from "@reown/ap
 import { FormInstance } from "antd";
 import { ethers, isAddress } from "ethers";
 import React, { useEffect, useState } from "react";
-import { alchemyChains, evmProviderStandard } from "~/constant/constant";
+import { alchemyChains, evmProviderStandard } from "~/constants/blockchain-metdata";
 import { ContractMetadata, getContractMetadata } from "~/data/contractMetadata";
 
 function useContract({form, standard, setStandard}: { form : FormInstance, standard : string, setStandard : React.Dispatch<React.SetStateAction<string>> }) {

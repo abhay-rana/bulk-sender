@@ -1,8 +1,8 @@
-const apiKey = process.env.NEXT_PUBLIC__ETHERSCAN_API_KEY || "YKPE2D1J4Q3VWYD1TPHXDVXIYKMYWCA8YP";
+import { ETHERSCAN_API_KEY } from "~/env";
 
 export async function getContractABI(contractAddress: string) {
         try {
-            const response = await fetch(`https://api.etherscan.io/api?module=contract&action=getabi&address=${contractAddress}&apikey=${apiKey}`);
+            const response = await fetch(`https://api.etherscan.io/api?module=contract&action=getabi&address=${contractAddress}&apikey=${ETHERSCAN_API_KEY}`);
             const data = await response.json();
 
             if (data.status === "1") {
@@ -14,4 +14,4 @@ export async function getContractABI(contractAddress: string) {
             console.error("Error fetching ABI:", error);
             throw error;
         }
-    }
+}

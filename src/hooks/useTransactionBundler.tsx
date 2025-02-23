@@ -2,7 +2,7 @@ import { useAppKitProvider } from "@reown/appkit/react";
 import { FormInstance } from "antd";
 import { ethers, isAddress } from "ethers";
 import React, { useState } from "react";
-import { evmProviderStandard } from "~/constant/constant";
+import { evmProviderStandard } from "~/constants/blockchain-metdata";
 import { getContractABI } from "~/data/multTransactionBundler";
 import { createFunctionSignature } from "~/services/ethers-services";
 

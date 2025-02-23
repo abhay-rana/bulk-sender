@@ -3,7 +3,8 @@ import useTransactionBundler from '~/hooks/useTransactionBundler';
 
 function multitransactionBundler() {    
       const [form] = Form.useForm();
-    const { handleSubmit, contractAbi, handleSelectedFunction, selectedFunctions, handleContractAddressInput } = useTransactionBundler({form});
+      const { handleSubmit, contractAbi, handleSelectedFunction, selectedFunctions, handleContractAddressInput } = useTransactionBundler({ form });
+    
     return ( 
         <div className="w-[100%] h-[100%]">
             <h2 className='text-center'>Multi Transaction Bundler</h2>

@@ -1,8 +1,8 @@
 import { Form, FormInstance, Input, Avatar } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import useContract from '~/hooks/useContract';
-import React, { useEffect } from 'react';
-import { defaultAvtar, evmChainsLogos } from '~/constant/constant';
+import React from 'react';
+import { defaultAvtar, evmChainsLogos } from '~/constants/blockchain-metdata';
 import WarningContractStandardModal from '../modals/wrong-contract-warning-modal';
 
 interface ContractAddressBarProps {
@@ -102,7 +102,11 @@ function ContractAddressBar({
                 </div>
             )}
 
-            <WarningContractStandardModal open={warning.open} text={warning.text} handleOkBtn={warning.handleOnChangeClick} handleCancelBtn={warning.handleOnChangeIgnore} />
+            <WarningContractStandardModal
+                open={warning.open}
+                text={warning.text}
+                handleOkBtn={warning.handleOnChangeClick}
+                handleCancelBtn={warning.handleOnChangeIgnore} />
         </div>
     );
 }
